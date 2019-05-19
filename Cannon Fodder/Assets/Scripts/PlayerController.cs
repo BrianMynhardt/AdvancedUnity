@@ -11,11 +11,14 @@ public class PlayerController : MonoBehaviour
     public Text winText;
     public GameObject firstPerson, thirdPerson, orbit;
     public Animator anim;
+    public Transform target;
+    
+    
 
     private Rigidbody rb;
     private float verticalLookRotation;
     private int count;
-    private bool isFirstPerson;
+    private bool isFirstPerson,aiming;
     private Vector3 velocity = Vector3.zero;
 
     // Start is called before the first frame update
@@ -23,10 +26,12 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        
         count = 0;
         setCountText();
         winText.text = "";
         isFirstPerson = false;
+        aiming = false;
         firstPerson.SetActive(false);
         orbit.SetActive(false);
         thirdPerson.SetActive(true);
@@ -38,24 +43,22 @@ public class PlayerController : MonoBehaviour
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
+        float moveUp = Input.GetAxis("Jump");
 
         Vector3 movHor = transform.right * moveHorizontal;
         Vector3 movVert = transform.forward * moveVertical;
-        Vector3 movUp = Vector3.zero;
+        Vector3 movUp = transform.up * moveUp;
 
         velocity = (movHor + movVert + movUp).normalized * fpsSpeed;
         if (isFirstPerson)
         {
             transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * Time.deltaTime * mouseSense);
-            verticalLookRotation += Input.GetAxis("Mouse Y") * Time.deltaTime * mouseSense;
-            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -60, 60);
-            firstPerson.transform.localEulerAngles = Vector3.left * verticalLookRotation;
-        }
-        if(Input.GetButtonDown("Fire2"))
-        {
             
-            anim.SetBool("isAiming", true);
+            verticalLookRotation += Input.GetAxis("Mouse Y") * Time.deltaTime * mouseSense;
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -30, 30);
+            firstPerson.transform.localEulerAngles = Vector3.left * verticalLookRotation;   
         }
+        
         
 
         if (Input.GetKeyDown("v"))
@@ -76,7 +79,6 @@ public class PlayerController : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 isFirstPerson = true;
             }
-
         }
 
         if(Input.GetKeyDown("b"))
@@ -91,6 +93,64 @@ public class PlayerController : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
         }
+
+        //Animations
+        if(Input.GetKey(KeyCode.W))
+        {
+            if (aiming)
+            {
+                anim.SetBool("isWalking", true);
+                anim.SetBool("isIdle", false);
+                anim.SetBool("isAiming", true);
+            }
+            else
+            {
+                anim.SetBool("isWalking", true);
+                anim.SetBool("isIdle", false);
+                anim.SetBool("isAiming", false);
+            }
+
+        }
+        else
+        {
+            if(aiming)
+            {
+                anim.SetBool("isWalking", false);
+                anim.SetBool("isIdle", true);
+                anim.SetBool("isAiming", true);
+            }
+            else
+            {
+                anim.SetBool("isWalking", false);
+                anim.SetBool("isIdle", true);
+                anim.SetBool("isAiming", false);
+            }
+            
+        }
+
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            if (aiming)
+            {
+                anim.CrossFade("Pistol Walk", 0.1f);  
+            }
+            else
+            {
+                anim.CrossFade("Walking", 0.1f);
+            }
+        }
+
+        if(Input.GetButton("Fire2"))
+        {
+            aiming = true;
+        }
+        else
+        {
+            aiming = false;
+        }
+
+        
+
     }
 
     void FixedUpdate()
@@ -98,21 +158,13 @@ public class PlayerController : MonoBehaviour
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
 
-        if (moveVertical > 0.1)
-        {
-            anim.SetBool("isWalking", true);
-        }
-        else
-        {
-            anim.SetBool("isWalking", false);
-        }
 
 
         if (!isFirstPerson)
         {
             moveHorizontal *= turnforce * Time.deltaTime;
             
-            moveVertical *= speed;
+            moveVertical *= speed * Time.deltaTime;
 
             rb.AddRelativeForce(0,0,moveVertical, ForceMode.Force);
             rb.AddTorque(transform.up * moveHorizontal, ForceMode.VelocityChange);
