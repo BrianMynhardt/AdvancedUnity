@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 7319421275510671741}
   - component: {fileID: 3236554646649872424}
   - component: {fileID: 5896236983118338370}
+  - component: {fileID: 7859464732126795593}
+  - component: {fileID: 7808516203835582326}
   m_Layer: 0
   m_Name: Flying Enemy
   m_TagString: Collectibles
@@ -123,6 +125,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7859464732126795593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4009450908166331983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ade8908911912468361e211eb14785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 1
+--- !u!114 &7808516203835582326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4009450908166331983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b1c40b15865c249befd5fa961f5634, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
 --- !u!1 &4456683104097338692
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +163,7 @@ GameObject:
   - component: {fileID: 8990143105928020604}
   - component: {fileID: 8196384876716343169}
   - component: {fileID: 2024086739425322614}
+  - component: {fileID: 4565916778171337183}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -214,3 +243,16 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4565916778171337183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456683104097338692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ade8908911912468361e211eb14785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 1

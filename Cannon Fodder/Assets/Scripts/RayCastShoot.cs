@@ -12,6 +12,7 @@ public class RayCastShoot : MonoBehaviour
     public GameObject firstPersonGO;
 
     private Camera fpsCam;
+    private ParticleSystem flash;
     private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);
     private AudioSource gunAudio;
     private LineRenderer laser;
@@ -22,6 +23,7 @@ public class RayCastShoot : MonoBehaviour
         laser = GetComponent<LineRenderer>();
         gunAudio = GetComponent<AudioSource>();
         fpsCam = firstPersonGO.GetComponent<Camera>();
+        flash = gunEnd.GetChild(0).GetComponent<ParticleSystem>();
 
     }
 
@@ -66,8 +68,8 @@ public class RayCastShoot : MonoBehaviour
     {
         gunAudio.Play();
 
-        laser.enabled = true;
+        flash.Play();
         yield return shotDuration;
-        laser.enabled = false;
+        
     }
 }

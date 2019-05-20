@@ -9,16 +9,18 @@ public class PlayerController : MonoBehaviour
     public float fpsSpeed, speed , turnforce, mouseSense;
     public Text countText;
     public Text winText;
-    public GameObject firstPerson, thirdPerson, orbit;
+    public GameObject firstPerson, thirdPerson, orbit, reticle;
     public Animator anim;
     public Transform target;
     
     
+    
 
     private Rigidbody rb;
+    private AudioSource footsteps;
     private float verticalLookRotation;
     private int count;
-    private bool isFirstPerson,aiming;
+    private bool isFirstPerson,aiming, isOrbit;
     private Vector3 velocity = Vector3.zero;
 
     // Start is called before the first frame update
@@ -26,12 +28,15 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-        
+        footsteps = GetComponent<AudioSource>();
+
         count = 0;
         setCountText();
         winText.text = "";
+        isOrbit = false;
         isFirstPerson = false;
         aiming = false;
+        reticle.SetActive(false);
         firstPerson.SetActive(false);
         orbit.SetActive(false);
         thirdPerson.SetActive(true);
@@ -55,7 +60,7 @@ public class PlayerController : MonoBehaviour
             transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * Time.deltaTime * mouseSense);
             
             verticalLookRotation += Input.GetAxis("Mouse Y") * Time.deltaTime * mouseSense;
-            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -30, 30);
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -30, 55);
             firstPerson.transform.localEulerAngles = Vector3.left * verticalLookRotation;   
         }
         
@@ -67,6 +72,7 @@ public class PlayerController : MonoBehaviour
             {
                 firstPerson.SetActive(false);
                 orbit.SetActive(false);
+                reticle.SetActive(false);
                 thirdPerson.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
                 isFirstPerson = false;
@@ -74,6 +80,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 orbit.SetActive(false);
+                reticle.SetActive(true);
                 thirdPerson.SetActive(false);
                 firstPerson.SetActive(true);
                 Cursor.lockState = CursorLockMode.Locked;
@@ -83,9 +90,21 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown("b"))
         {
-            thirdPerson.SetActive(false);
-            firstPerson.SetActive(false);
-            orbit.SetActive(true);
+            if(isOrbit)
+            {
+                thirdPerson.SetActive(true);
+                firstPerson.SetActive(false);
+                orbit.SetActive(false);
+                reticle.SetActive(false);
+            }
+            else
+            {
+                thirdPerson.SetActive(false);
+                firstPerson.SetActive(false);
+                orbit.SetActive(true);
+                reticle.SetActive(false);
+            }
+            
 
         }
 
@@ -97,6 +116,7 @@ public class PlayerController : MonoBehaviour
         //Animations
         if(Input.GetKey(KeyCode.W))
         {
+            
             if (aiming)
             {
                 anim.SetBool("isWalking", true);
@@ -130,6 +150,8 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.W))
         {
+            footsteps.Play();
+
             if (aiming)
             {
                 anim.CrossFade("Pistol Walk", 0.1f);  
@@ -138,6 +160,11 @@ public class PlayerController : MonoBehaviour
             {
                 anim.CrossFade("Walking", 0.1f);
             }
+        }
+
+        if(Input.GetKeyUp(KeyCode.W))
+        {
+            footsteps.Stop();
         }
 
         if(Input.GetButton("Fire2"))

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8652270493983395473}
   - component: {fileID: 4560435171826968958}
   - component: {fileID: 419834800719414891}
+  - component: {fileID: 3158048102015211771}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -91,6 +92,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3158048102015211771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3983590352837027672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ade8908911912468361e211eb14785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 1
 --- !u!1 &5070027604947901278
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,6 +119,7 @@ GameObject:
   - component: {fileID: 7935965165703709819}
   - component: {fileID: 2859941491817065467}
   - component: {fileID: 8854882927398028883}
+  - component: {fileID: 3940705812906069356}
   m_Layer: 0
   m_Name: SphereEnemy
   m_TagString: Collectibles
@@ -215,6 +230,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3940705812906069356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5070027604947901278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ade8908911912468361e211eb14785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 3
 --- !u!1 &7589860175525638156
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +255,7 @@ GameObject:
   - component: {fileID: 8504489735908887559}
   - component: {fileID: 8462721787381164481}
   - component: {fileID: 1707650945640580025}
+  - component: {fileID: 3676834595539382417}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -306,3 +335,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3676834595539382417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7589860175525638156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ade8908911912468361e211eb14785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 1
